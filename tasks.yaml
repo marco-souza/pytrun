@@ -1,0 +1,8 @@
+main:
+  - echo "hello world"
+
+setup:dev:
+  - pip install -e .[dev]
+
+tests:
+  - python -m pytest .
