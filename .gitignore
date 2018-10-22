@@ -1,0 +1,6 @@
+.project
+.ipynb*
+.vscode
+__*__
+*.pyc
+*egg-info
