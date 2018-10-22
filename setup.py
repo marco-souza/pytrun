@@ -46,8 +46,9 @@ setup(
     extras_require={
         'dev': [
             'rope',
-            'flake8',
             'pylint',
+            'pytest',
+            'flake8',
             'pycodestyle',
         ],
         'test': [],
