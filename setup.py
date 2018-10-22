@@ -23,11 +23,11 @@ setup(
 
     # Meta data
     classifiers=[
-        'Development Status :: 1 - Alpha',
+        'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
 
-        'Intended Audience :: Developer',
-        'Topic :: Tool :: Task Runner',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Build Tools',
 
         'Programming Language :: Python :: 3.6'
     ],
@@ -46,6 +46,7 @@ setup(
     ],
     extras_require={
         'dev': [
+            'twine',
             'rope',
             'pylint',
             'pytest',
