@@ -14,10 +14,23 @@ class TaskRunner(object):
     def run(self, task):
         """Run a task."""
         cmds = self.config[task]
-        for cmd in cmds:
-            print("[start:{}] - {}".format(task, cmd))
-            system(cmd)
-            print("[finished:{}] - {}".format(task, cmd))
+
+        if isinstance(cmds, dict):
+            tasks = cmds.get('tasks')
+            if tasks:
+                return self._run_tasks(tasks)
+            else:
+                raise ValueError('Wrong description for task {}.'.format(task))
+
+        elif isinstance(cmds[0], str):
+            for cmd in cmds:
+                print("[start:{}] - {}".format(task, cmd))
+                system(cmd)
+                print("[finished:{}] - {}".format(task, cmd))
+
+    def _run_tasks(self, tasks):
+        for task in tasks:
+            self.run(task)
 
     def _get_config(self, file):
         abs_path = path.abspath(file)

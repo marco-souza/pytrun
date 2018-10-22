@@ -35,7 +35,8 @@ setup(
     entry_points={
         # Add console_scripts
         'console_scripts': [
-            'pytrun = pytrun.main:main'
+            'pytrun = pytrun.main:main',
+            'ptr = pytrun.main:main',
         ],
     },
 
