@@ -1,8 +1,6 @@
 """Tests for TaskRunner."""
 from unittest import TestCase, mock, main as unittest_main
 
-import yaml
-
 from pytrun.task_runner import TaskRunner
 
 
@@ -21,16 +19,42 @@ class TaskRunnerTests(TestCase):
             "main": ["echo hello pytrun"]
         }
 
-    @mock.patch('yaml', autospec=True)
-    def test_task_runner_init(self, mock_yaml):
+    def test_error_file_dont_exists(self):
         file = self._args['config']
-        TaskRunner._get_config = mock.Mock()
+
+        try:
+            TaskRunner(file)
+        except FileNotFoundError as err:
+            assert str(err) == "some/file can't be found!"
+
+    def test_run_task_bundle(self):
+        file = self._args['config']
+        TaskRunner.run = mock.Mock()
+        TaskRunner._get_config = mock.MagicMock(return_value=self._config)
 
         runner = TaskRunner(file)
+        tasks = ['task1',
+                 'task2']
+        runner._run_tasks(tasks)
 
-        TaskRunner._get_config.assert_called_with(file)
-        assert runner.config == self._config
-        mock_yaml.load.assert_called_with()
+        # Asserts
+        assert runner.run.call_count == len(tasks)
+        runner.run.assert_has_calls([mock.call(i) for i in tasks])
+
+    @mock.patch('os.system')
+    def test_run_task(self, system):
+        file = self._args['config']
+        # TaskRunner.run = mock.Mock()
+        TaskRunner._get_config = mock.MagicMock(return_value=self._config)
+        # system = mock.MagicMock(return_value=True)
+
+        task = 'main'
+        item = self._config[task][0]
+        runner = TaskRunner(file)
+        runner.run(task)
+
+        # Asserts
+        system.assert_called_with(item)
 
 
 if __name__ == '__main__':

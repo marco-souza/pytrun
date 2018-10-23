@@ -1,6 +1,6 @@
 """Define TaskRunner."""
 import yaml
-from os import path, system
+import os
 
 
 class TaskRunner(object):
@@ -25,7 +25,7 @@ class TaskRunner(object):
         elif isinstance(cmds[0], str):
             for cmd in cmds:
                 print("[start:{}] - {}".format(task, cmd))
-                system(cmd)
+                os.system(cmd)
                 print("[finished:{}] - {}".format(task, cmd))
 
     def _run_tasks(self, tasks):
@@ -33,7 +33,7 @@ class TaskRunner(object):
             self.run(task)
 
     def _get_config(self, file):
-        abs_path = path.abspath(file)
+        abs_path = os.path.abspath(file)
         filename = abs_path.split('.')[0]
         ext_list = [
             'yml',
@@ -42,8 +42,10 @@ class TaskRunner(object):
 
         for ext in ext_list:
             pathname = '{}.{}'.format(filename, ext)
-            if path.exists(pathname):
-                stream = open(pathname, 'r')
-                return yaml.load(stream=stream)
+            try:
+                with open(pathname, 'r') as stream:
+                    return yaml.load(stream)
+            except FileNotFoundError:
+                pass
 
         raise FileNotFoundError("{} can't be found!".format(file))
