@@ -11,13 +11,20 @@ class TaskRunner(object):
         # parse file to config
         self.config = self._get_config(file)
 
-    def run(self, tasks):
+    def run(self, tasks, args=""):
         for task in tasks:
-            self._run_task(task)
+            self._run_task(task, args)
 
-    def _run_task(self, task):
+    def _run_task(self, task, args=""):
         """Run a task."""
         cmds = self.config[task]
+
+        if isinstance(args, list):
+            if args:
+                args = " ".join(args)
+            else:
+                args = ""
+
         if isinstance(cmds, dict):
             tasks = cmds.get('tasks')
             if tasks:
@@ -28,7 +35,11 @@ class TaskRunner(object):
         elif isinstance(cmds, list):
             for cmd in cmds:
                 print("--- [start:{}] - {}".format(task, cmd))
-                os.system(cmd)
+                if args:
+                    command = "{} {}".format(cmd, args)
+                else:
+                    command = "{}".format(cmd)
+                os.system(command)
                 print("--- [finished:{}] - {}".format(task, cmd))
 
     def _run_subtasks(self, tasks):

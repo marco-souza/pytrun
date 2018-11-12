@@ -2,6 +2,10 @@
 
 List of diferences between released versions.
 
+## Pytrun 1.2.0
+
+- pass args tasks
+
 ## Pytrun 1.1.1
 
 - fix subtasks runner

@@ -13,6 +13,8 @@ def cli():
     # config
     parser.add_argument('--config', '-c', type=str, default="./tasks",
                         help='File to get tasks definition.')
+    parser.add_argument('--args', '-a', nargs='+',
+                        help='Arguments.')
     args = parser.parse_args()
     return args
 
@@ -21,7 +23,7 @@ def main():
     """Run main code."""
     args = cli()
     runner = TaskRunner(args.config)
-    runner.run(args.tasks)
+    runner.run(args.tasks, args.args)
 
 
 if __name__ == "__main__":

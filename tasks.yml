@@ -15,7 +15,7 @@ setup:
 register:
   - ./setup.py register
 build:
-  - pkg_version=1.1.1 ./setup.py sdist bdist_wheel
+  - pkg_version=1.2.0 ./setup.py sdist bdist_wheel
 upload:
   - twine upload -u marco-souza dist/*
 clean:
