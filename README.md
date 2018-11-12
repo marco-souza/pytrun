@@ -10,14 +10,18 @@ First of all you need to create a `tasks.yaml` or `tasks.yml` to define which ta
 setup:
     - pip install -e .[dev]
 
+
+build:
+  - python setup.py sdist
+
 ```
 
 ```bash
-pytrun setup
+pytrun setup build
 ```
 
 Also you can specify another file to pytrun:
 
 ```sh
-pytrun setup -c ./my-tasks.yml
+pytrun setup build -c ./my-tasks.yml
 ```

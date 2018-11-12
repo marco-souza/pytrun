@@ -6,8 +6,12 @@ from os import path, getenv
 project_path = path.abspath(path.dirname(__file__))
 
 # load full description
-with open(path.join(project_path, 'README.md'), encoding='utf-8') as file:
-    long_description = file.read()
+try:
+    with open(path.join(project_path, 'README.md'), encoding='utf-8') as file:
+        long_description = file.read()
+except Exception:
+    long_description = ""
+
 
 setup(
     # Package Info
