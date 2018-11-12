@@ -29,17 +29,17 @@ class TaskRunnerTests(TestCase):
 
     def test_run_task_bundle(self):
         file = self._args['config']
-        TaskRunner.run = mock.Mock()
+        TaskRunner._run_task = mock.Mock()
         TaskRunner._get_config = mock.MagicMock(return_value=self._config)
 
         runner = TaskRunner(file)
         tasks = ['task1',
                  'task2']
-        runner._run_tasks(tasks)
+        runner._run_subtasks(tasks)
 
         # Asserts
-        assert runner.run.call_count == len(tasks)
-        runner.run.assert_has_calls([mock.call(i) for i in tasks])
+        assert runner._run_task.call_count == 2
+        runner._run_task.assert_has_calls([mock.call(i) for i in tasks])
 
     @mock.patch('os.system')
     def test_run_task(self, system):
@@ -48,12 +48,14 @@ class TaskRunnerTests(TestCase):
         TaskRunner._get_config = mock.MagicMock(return_value=self._config)
         # system = mock.MagicMock(return_value=True)
 
-        task = 'main'
-        item = self._config[task][0]
+        task = ['main']
+        item = self._config[task[0]][0]
+        # import pdb; pdb.set_trace()
         runner = TaskRunner(file)
         runner.run(task)
 
         # Asserts
+
         system.assert_called_with(item)
 
 

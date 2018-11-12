@@ -2,6 +2,11 @@
 
 List of diferences between released versions.
 
+## Pytrun 1.1.1
+
+- fix subtasks runner
+- fix tests
+
 ## Pytrun 1.1.0
 
 - run multiple tasks in CLI
