@@ -11,14 +11,18 @@ class TaskRunner(object):
         # parse file to config
         self.config = self._get_config(file)
 
-    def run(self, task):
+    def run(self, tasks):
+        for task in tasks:
+            self._run_task(task)
+
+    def _run_task(self, task):
         """Run a task."""
         cmds = self.config[task]
 
         if isinstance(cmds, dict):
             tasks = cmds.get('tasks')
             if tasks:
-                return self._run_tasks(tasks)
+                return self._run_subtasks(tasks)
             else:
                 raise ValueError('Wrong description for task {}.'.format(task))
 
@@ -28,7 +32,7 @@ class TaskRunner(object):
                 os.system(cmd)
                 print("[finished:{}] - {}".format(task, cmd))
 
-    def _run_tasks(self, tasks):
+    def _run_subtasks(self, tasks):
         for task in tasks:
             self.run(task)
 

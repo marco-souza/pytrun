@@ -8,7 +8,7 @@ def cli():
     """CLI argparse."""
     parser = argparse.ArgumentParser(description='Python Yaml Task RUNner')
     # task
-    parser.add_argument('task', type=str, default="main", nargs='?',
+    parser.add_argument('tasks', type=str, default="main", nargs='+',
                         help='Task Name defined on your task file.')
     # config
     parser.add_argument('--config', '-c', type=str, default="./tasks",
@@ -21,7 +21,7 @@ def main():
     """Run main code."""
     args = cli()
     runner = TaskRunner(args.config)
-    runner.run(args.task)
+    runner.run(args.tasks)
 
 
 if __name__ == "__main__":
